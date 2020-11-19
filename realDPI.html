@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<!--
+ * This file is part of realDPI - Finding your physical screen resolution by using moiré patterns.
+ *
+ * Copyright (C) 2020, xyzzy@rockingship.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+-->
+<html lang="en">
+<head>
+	<title>Real DPI</title>
+	<meta charset="UTF-8">
+	<style>
+		body {
+			font-family: Verdana, Geneva, sans-serif;
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			border: 0;
+			padding: 0;
+			overflow-x: hidden;
+		}
+
+		.description {
+			padding: 1em;
+		}
+
+		#idWrapper {
+			position: relative;
+		}
+
+		#idMoire {
+			width: 40.5%;
+		}
+
+		#idCanvas {
+			background-color: #0f0;
+			height: 3em;
+		}
+
+		#idSlider {
+			-webkit-appearance: none; /* Override default CSS styles */
+			appearance: none;
+			width: 100%;
+			height: 2em;
+			background: #ccc;
+			outline: none;
+		}
+
+		#idSlider::-webkit-slider-thumb {
+			width: 1.5em;
+			height: 1.5em;
+		}
+
+		#idSlider::-moz-range-thumb {
+			width: 1.5em;
+			height: 1.5em;
+		}
+
+		#widthDPI {
+			visibility: hidden;
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 1px;
+			width: 1in;
+		}
+
+		#widthScreen {
+			visibility: hidden;
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 1px;
+			width: 100%;
+		}
+	</style>
+	<script type="text/javascript">
+		"use strict";
+
+		window.addEventListener("load", () => {
+
+			const canvas = document.getElementById("idCanvas");
+			const ctx = canvas.getContext("2d");
+			const width = canvas.width;
+			const height = canvas.height;
+
+			// erase canvas
+			ctx.fillStyle = '#0000'; // transparent
+			ctx.fillRect(0, 0, width, height);
+
+			// fill pattern
+			ctx.fillStyle = '#000'; // black
+			for (let i = 0; i < width; i += 2)
+				ctx.fillRect(i, 0, 1, height);
+
+			const domCanvas = document.getElementById("idCanvas");
+			const domSlider = document.getElementById("idSlider");
+			const domPhysicalWidth = document.getElementById("physicalWidth");
+			const domDotsPerInch = document.getElementById("dotsPerInch");
+			const domWidthDPI = document.getElementById("widthDPI");
+			const domWidthScreen = document.getElementById("widthScreen");
+
+			{
+				const percent = (domSlider.value / 100) / 2;
+				domPhysicalWidth.innerText = Math.round(document.body.clientWidth / (percent / 100) / 2);
+			}
+
+			domSlider.addEventListener("input", function () {
+				const percent = (this.value / 100) / 2;
+				domCanvas.style.width = percent + "%";
+				domPhysicalWidth.innerText = Math.round(document.body.clientWidth / (percent / 100) / 2);
+
+				let widthDPI = domWidthDPI.clientWidth;
+				let widthScreen = domWidthScreen.clientWidth;
+				domDotsPerInch.innerText = widthDPI + "," + widthScreen;
+			});
+
+			setInterval(() => {
+				document.getElementById("availWidth").innerText = window.screen.availWidth;
+				document.getElementById("availHeight").innerText = window.screen.availHeight;
+				document.getElementById("devicePixelRatio").innerText = window.devicePixelRatio;
+				document.getElementById("clientWidth").innerText = document.body.clientWidth;
+				document.getElementById("clientHeight").innerText = document.body.clientHeight;
+			}, 50);
+
+		});
+
+	</script>
+</head>
+<body>
+
+<div class="description">
+	<h1>Real DPI</h1>
+	<p>Visually detect our browsers real screen resolution and DPI.</p>
+	<p>Browsers have broken the internet. Instead of making available their real resolution and DPI, they spoof the DPI to the self-proclaimed "standard" of 96 dots per inch.</p>
+	<p>The hack effectively changes your high-resolution and flagship expensive screen to something like 384x854</p>
+
+	<h2>Why is this a problem</h2>
+	<p>Browser coordinates used to position page elements are floating point. This scales for any screen size and this spoofing is generally invisible.</p>
+	<p>The problem arises with procedural generated content, specifically <code>&lt;canvas&gt;</code> in combination with <code>context2d.putImageData()</code> which is integer based.</p>
+	<p>To compensate you need to oversample the canvas. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio">MDN suggests</a> using <code>window.devicePixelRatio</code>.
+		In theory <code>window.availableWidth/Height</code> times <code>window.devicePixelRatio</code> should be the physical pixel size, only experience reveals this is seldom the case.</p>
+
+	<h2>Why this page</h2>
+	<p>Browsers lie, hide and conceal the physical pixel size of your screen.
+		However, carefully constructing the canvas can produce moire effects when down sampled.
+		The patterns give visual hints to determine the actual size.</p>
+
+	<h2>Stop this madness</h2>
+	<p>Browser builders should stop forcing a logical 96dpi for every screen and use it for what it was originally intended: a metric to scale and create custom-fit contents for all devices.</p>
+	<p>With dpi always being 96 it loses it meaning and spoofing, hacking and guessing will become business as usual.</p>
+	<p>There is currently no way to get any physical screen metrics using javascript.</p>
+
+	<h2>How to determine your REAL dpi</h2>
+	<dl>
+		<dt>Put the browser into full screen mode.</dt>
+		<dd>Mobiles are usually exclusively full-screen.
+		Hide side panels like history and bookmarks.</dd>
+
+		<dt>For mobile, hold it in portrait.</dt>
+		<dd>Firefox for android really dropped the banana here.
+			On my device, portrait is 980*1524.
+			For landscape you would expect 1524*980 but in reality it is considered 980*630
+		</dd>
+
+		<dt>Find the moire pattern.</dt>
+		<dd>Directly below is a PNG of the moire pattern to expect and search.
+			Use the slider to find an approximation of the moire pattern.
+			The greater the distance between the green bars, the better.
+			If you find more than one, use the left-most version.
+		</dd>
+
+		<dt>Read the guessimate.</dt>
+		<dd>It shows your real horizontal resolution and DPI.</dd>
+
+		<dt>Try with landscape.</dt>
+		<dd>Rotate to landscape.
+			If width/height value swap then you're safe.
+		</dd>
+	</dl>
+</div>
+
+<div id="idWrapper">
+	<img id="idMoire" src="moire.png" width="1000">
+	<br>
+	<div style="height:5em; width:10000px">
+		<canvas id="idCanvas" height="100" width="10000" style="width:100%"></canvas>
+	</div>
+</div>
+
+<input id="idSlider" type="range" min="0" max="11000" value="10000">
+
+<div class="description">
+	Browser reports:<br><br>
+
+	window.screen.availWidth: <span id="availWidth"></span><br>
+	window.screen.availHeight: <span id="availHeight"></span><br>
+	window.devicePixelRatio: <span id="devicePixelRatio"></span><br>
+	body.clientWidth: <span id="clientWidth"></span><br>
+	body.clientHeight: <span id="clientHeight"></span><br>
+	<br>
+	Real values:<br><br>
+	physical width: <span id="physicalWidth"></span><br>
+	DPI: <span id="dotsPerInch"></span><br>
+</div>
+
+
+<p>Project page: <a href="https://github.com/xyzzy/realDPI">https://github.com/xyzzy/realDPI</a></p>
+<!-- hidden -->
+<div id="widthDPI"></div>
+<div id="widthScreen"></div>
+</body>
+</html>
