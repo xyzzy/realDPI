@@ -37,8 +37,17 @@
 			overflow-x: hidden;
 		}
 
+		.mono {
+			font-family: monospace, serif;
+		}
 		.description {
 			padding: 1em;
+		}
+
+		#idButton {
+			margin: 0 auto;
+			display: block;
+			font-size: 2em;
 		}
 
 		#idWrapper {
@@ -110,28 +119,37 @@
 			for (let i = 0; i < width; i += 2)
 				ctx.fillRect(i, 0, 1, height);
 
+			// get DOM elements
+			const domIntro = document.getElementById("idIntro");
+			const domButton = document.getElementById("idButton");
 			const domCanvas = document.getElementById("idCanvas");
 			const domSlider = document.getElementById("idSlider");
-			const domPhysicalWidth = document.getElementById("physicalWidth");
-			const domDotsPerInch = document.getElementById("dotsPerInch");
-			const domWidthDPI = document.getElementById("widthDPI");
-			const domWidthScreen = document.getElementById("widthScreen");
+			const domRealWidth = document.getElementById("realWidth");
+			const domRealPixelRatio = document.getElementById("realPixelRatio");
+			const domRealDPI = document.getElementById("realDPI");
+			const domMeasureDPI = document.getElementById("widthDPI");
+			const domMeasureScreen = document.getElementById("widthScreen");
 
-			{
-				const percent = (domSlider.value / 100) / 2;
-				domPhysicalWidth.innerText = Math.round(document.body.clientWidth / (percent / 100) / 2);
+			function update() {
+				// the moire effect starts when the canvas is double density
+				let ratio = domSlider.value / 10000;
+				domCanvas.style.width = (ratio * 100) + "%";
+				domRealWidth.innerText = Math.round(document.body.clientWidth / ratio / 2);
+
+				// ratio between physical and css pixels.
+				domRealPixelRatio.innerText = (domCanvas.clientWidth / document.body.clientWidth);
+
+				let widthDPI = domMeasureDPI.clientWidth;
+				let widthScreen = domMeasureScreen.clientWidth;
+				domRealDPI.innerText = widthDPI + "," + widthScreen;
 			}
 
-			domSlider.addEventListener("input", function () {
-				const percent = (this.value / 100) / 2;
-				domCanvas.style.width = percent + "%";
-				domPhysicalWidth.innerText = Math.round(document.body.clientWidth / (percent / 100) / 2);
+			// slider listener
+			domSlider.addEventListener("input", update);
+			// initial call
+			update();
 
-				let widthDPI = domWidthDPI.clientWidth;
-				let widthScreen = domWidthScreen.clientWidth;
-				domDotsPerInch.innerText = widthDPI + "," + widthScreen;
-			});
-
+			// resize listener
 			setInterval(() => {
 				document.getElementById("availWidth").innerText = window.screen.availWidth;
 				document.getElementById("availHeight").innerText = window.screen.availHeight;
@@ -140,13 +158,43 @@
 				document.getElementById("clientHeight").innerText = document.body.clientHeight;
 			}, 50);
 
+			// button listener
+			domButton.addEventListener("click", () => {
+				if (domIntro.style.display !== "none") {
+					// enter fullscreen
+					let elem = document.documentElement;
+
+					if (elem.requestFullscreen)
+						elem.requestFullscreen();
+					else if (elem.webkitRequestFullscreen) /* Safari */
+						elem.webkitRequestFullscreen();
+					else if (elem.msRequestFullscreen) /* IE11 */
+						elem.msRequestFullscreen();
+
+					domIntro.style.display = "none";
+					domButton.innerText = "Exit full-screen";
+				} else {
+					// exit fullscreen
+					if (document.exitFullscreen)
+						document.exitFullscreen();
+					else if (document.webkitExitFullscreen) /* Safari */
+						document.webkitExitFullscreen();
+					else if (document.msExitFullscreen) /* IE11 */
+						document.msExitFullscreen();
+
+					domIntro.style.display = "block";
+					domButton.innerText = "Enter full-screen";
+
+				}
+			});
+
 		});
 
 	</script>
 </head>
 <body>
 
-<div class="description">
+<div id="idIntro" class="description">
 	<h1>Real DPI</h1>
 	<p>Visually detect our browsers real screen resolution and DPI.</p>
 	<p>Browsers have broken the internet. Instead of making available their real resolution and DPI, they spoof the DPI to the self-proclaimed "standard" of 96 dots per inch.</p>
@@ -154,9 +202,9 @@
 
 	<h2>Why is this a problem</h2>
 	<p>Browser coordinates used to position page elements are floating point. This scales for any screen size and this spoofing is generally invisible.</p>
-	<p>The problem arises with procedural generated content, specifically <code>&lt;canvas&gt;</code> in combination with <code>context2d.putImageData()</code> which is integer based.</p>
-	<p>To compensate you need to oversample the canvas. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio">MDN suggests</a> using <code>window.devicePixelRatio</code>.
-		In theory <code>window.availableWidth/Height</code> times <code>window.devicePixelRatio</code> should be the physical pixel size, only experience reveals this is seldom the case.</p>
+	<p>The problem arises with procedural generated content, specifically <span class="mono">&lt;canvas&gt;</span> in combination with <span class="mono">context2d.putImageData()</span> which is integer based.</p>
+	<p>To compensate you need to oversample the canvas. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio">MDN suggests</a> using <span class="mono">window.devicePixelRatio</span>.
+		In theory <span class="mono">window.availableWidth/Height</span> times <span class="mono">window.devicePixelRatio</span> should be the physical pixel size, only experience reveals this is seldom the case.</p>
 
 	<h2>Why this page</h2>
 	<p>Browsers lie, hide and conceal the physical pixel size of your screen.
@@ -170,14 +218,16 @@
 
 	<h2>How to determine your REAL dpi</h2>
 	<dl>
-		<dt>Put the browser into full screen mode.</dt>
-		<dd>Mobiles are usually exclusively full-screen.
-		Hide side panels like history and bookmarks.</dd>
+		<dt>Press "Enter full-screen" to remove text.</dt>
+		<dd>Put the browser into full screen mode, mobiles are usually exclusively full-screen.
+			Pressing also toggles the display of this text to remove any scroll bars.
+			If present, you should also hide side panels like history and bookmarks.
+		</dd>
 
 		<dt>For mobile, hold it in portrait.</dt>
 		<dd>Firefox for android really dropped the banana here.
 			On my device, portrait is 980*1524.
-			For landscape you would expect 1524*980 but in reality it is considered 980*630
+			For landscape you would expect 1524*980 but in reality it is reported as 980*630.
 		</dd>
 
 		<dt>Find the moire pattern.</dt>
@@ -192,9 +242,29 @@
 
 		<dt>Try with landscape.</dt>
 		<dd>Rotate to landscape.
-			If width/height value swap then you're safe.
+			If <span class="mono">window.screen.availWidth</span> equals <span class="mono">body.clientWidth</span> then you're safe.
 		</dd>
 	</dl>
+
+	<hr>
+</div>
+
+<div class="description">
+	<button id="idButton">Enter full-screen</button>
+
+	Browser reports:<br><br>
+
+	window.screen.availWidth: <span id="availWidth"></span><br>
+	window.screen.availHeight: <span id="availHeight"></span><br>
+	window.devicePixelRatio: <span id="devicePixelRatio"></span><br>
+	body.clientWidth: <span id="clientWidth"></span><br>
+	body.clientHeight: <span id="clientHeight"></span><br>
+	<br>
+	Real values:<br><br>
+	physical width: <span id="realWidth"></span><br>
+	device pixel ratio: <span id="realPixelRatio"></span><br>
+	with a reported DPI of : <span id="realDPI"></span><br>
+	<p></p>
 </div>
 
 <div id="idWrapper">
@@ -206,21 +276,6 @@
 </div>
 
 <input id="idSlider" type="range" min="0" max="11000" value="10000">
-
-<div class="description">
-	Browser reports:<br><br>
-
-	window.screen.availWidth: <span id="availWidth"></span><br>
-	window.screen.availHeight: <span id="availHeight"></span><br>
-	window.devicePixelRatio: <span id="devicePixelRatio"></span><br>
-	body.clientWidth: <span id="clientWidth"></span><br>
-	body.clientHeight: <span id="clientHeight"></span><br>
-	<br>
-	Real values:<br><br>
-	physical width: <span id="physicalWidth"></span><br>
-	DPI: <span id="dotsPerInch"></span><br>
-</div>
-
 
 <p>Project page: <a href="https://github.com/xyzzy/realDPI">https://github.com/xyzzy/realDPI</a></p>
 <!-- hidden -->
