@@ -81,24 +81,6 @@
 			width: 1.5em;
 			height: 1.5em;
 		}
-
-		#widthDPI {
-			visibility: hidden;
-			position: absolute;
-			top: 0;
-			left: 0;
-			height: 1px;
-			width: 1in;
-		}
-
-		#widthScreen {
-			visibility: hidden;
-			position: absolute;
-			top: 0;
-			left: 0;
-			height: 1px;
-			width: 100%;
-		}
 	</style>
 	<script type="text/javascript">
 		"use strict";
@@ -126,9 +108,6 @@
 			const domSlider = document.getElementById("idSlider");
 			const domRealWidth = document.getElementById("realWidth");
 			const domRealPixelRatio = document.getElementById("realPixelRatio");
-			const domRealDPI = document.getElementById("realDPI");
-			const domMeasureDPI = document.getElementById("widthDPI");
-			const domMeasureScreen = document.getElementById("widthScreen");
 
 			function update() {
 				// the moire effect starts when the canvas is double density
@@ -138,10 +117,6 @@
 
 				// ratio between physical and css pixels.
 				domRealPixelRatio.innerText = (domCanvas.clientWidth / document.body.clientWidth);
-
-				let widthDPI = domMeasureDPI.clientWidth;
-				let widthScreen = domMeasureScreen.clientWidth;
-				domRealDPI.innerText = widthDPI + "," + widthScreen;
 			}
 
 			// slider listener
@@ -263,7 +238,6 @@
 	Real values:<br><br>
 	physical width: <span id="realWidth"></span><br>
 	device pixel ratio: <span id="realPixelRatio"></span><br>
-	with a reported DPI of : <span id="realDPI"></span><br>
 	<p></p>
 </div>
 
@@ -278,8 +252,5 @@
 <input id="idSlider" type="range" min="0" max="11000" value="10000">
 
 <p>Project page: <a href="https://github.com/xyzzy/realDPI">https://github.com/xyzzy/realDPI</a></p>
-<!-- hidden -->
-<div id="widthDPI"></div>
-<div id="widthScreen"></div>
 </body>
 </html>
