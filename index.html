@@ -56,6 +56,7 @@
 
 		#idMoire {
 			width: 40.5%;
+			vertical-align: middle;
 		}
 
 		#idCanvas {
@@ -116,8 +117,11 @@
 				domRealWidth.innerText = Math.round(document.body.clientWidth / ratio / 2);
 
 				// ratio between physical and css pixels.
-				domRealPixelRatio.innerText = (domCanvas.clientWidth / document.body.clientWidth);
+				domRealPixelRatio.innerText = ratio; // (domCanvas.clientWidth / document.body.clientWidth);
 			}
+
+			// set initial position to reported value
+			domSlider.value = Math.round(window.devicePixelRatio * 2 * 1000);
 
 			// slider listener
 			domSlider.addEventListener("input", update);
@@ -183,7 +187,7 @@
 
 	<h2>Why this page</h2>
 	<p>Browsers lie, hide and conceal the physical pixel size of your screen.
-		However, carefully constructing the canvas can produce moire effects when down sampled.
+		However, carefully constructing the canvas can produce moiré effects when down sampled.
 		The patterns give visual hints to determine the actual size.</p>
 
 	<h2>Stop this madness</h2>
@@ -205,9 +209,9 @@
 			For landscape you would expect 1524*980 but in reality it is reported as 980*630.
 		</dd>
 
-		<dt>Find the moire pattern.</dt>
-		<dd>Directly below is a PNG of the moire pattern to expect and search.
-			Use the slider to find an approximation of the moire pattern.
+		<dt>Find the moiré pattern.</dt>
+		<dd>Directly below is a PNG of the moiré pattern to expect and search.
+			Use the slider to find an approximation of the moiré pattern.
 			The greater the distance between the green bars, the better.
 			If you find more than one, use the left-most version.
 		</dd>
@@ -242,7 +246,9 @@
 </div>
 
 <div id="idWrapper">
-	<img id="idMoire" src="moire.png" width="1000">
+	Example: <img id="idMoire" src="moire.png" width="1000">
+	<br>
+	Find the moiré pattern and maximize the distance between the stripes.
 	<br>
 	<div style="height:5em; width:10000px">
 		<canvas id="idCanvas" height="100" width="10000" style="width:100%"></canvas>
