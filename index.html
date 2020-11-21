@@ -44,6 +44,10 @@
 			padding: 1em;
 		}
 
+		#idSameWidth,  #idSameHeight {
+			color: red;
+		}
+
 		#idButton {
 			margin: 0 auto;
 			display: block;
@@ -112,16 +116,17 @@
 
 			function update() {
 				// the moire effect starts when the canvas is double density
-				let ratio = domSlider.value / 10000;
-				domCanvas.style.width = (ratio * 100) + "%";
-				domRealWidth.innerText = Math.round(document.body.clientWidth / ratio / 2);
+				let ratio = 10000 / domSlider.value;
+				domCanvas.style.width = (1 / ratio * 100) + "%";
+				domRealWidth.innerText = Math.round(document.body.clientWidth * ratio / 2);
 
 				// ratio between physical and css pixels.
-				domRealPixelRatio.innerText = ratio; // (domCanvas.clientWidth / document.body.clientWidth);
+				domRealPixelRatio.innerText = Math.round(ratio / 2 * 1000) / 1000;
 			}
 
 			// set initial position to reported value
-			domSlider.value = Math.round(window.devicePixelRatio * 2 * 1000);
+			if (window.devicePixelRatio)
+				domSlider.value = 1 / window.devicePixelRatio / 2 * 10000;
 
 			// slider listener
 			domSlider.addEventListener("input", update);
@@ -130,11 +135,13 @@
 
 			// resize listener
 			setInterval(() => {
-				document.getElementById("availWidth").innerText = window.screen.availWidth;
-				document.getElementById("availHeight").innerText = window.screen.availHeight;
+				document.getElementById("availWidth").innerText = screen.availWidth;
+				document.getElementById("availHeight").innerText = screen.availHeight;
 				document.getElementById("devicePixelRatio").innerText = window.devicePixelRatio;
 				document.getElementById("clientWidth").innerText = document.body.clientWidth;
 				document.getElementById("clientHeight").innerText = document.body.clientHeight;
+				document.getElementById("idSameWidth").style.visibility = (screen.availWidth === document.body.clientWidth? "hidden" : "visible");
+				document.getElementById("idSameHeight").style.visibility = (screen.availHeight === document.body.clientHeight? "hidden" : "visible");
 			}, 50);
 
 			// button listener
@@ -221,7 +228,7 @@
 
 		<dt>Try with landscape.</dt>
 		<dd>Rotate to landscape.
-			If <span class="mono">window.screen.availWidth</span> equals <span class="mono">body.clientWidth</span> then you're safe.
+			If <span class="mono">screen.availWidth</span> equals <span class="mono">body.clientWidth</span> then you're safe.
 		</dd>
 	</dl>
 
@@ -233,11 +240,11 @@
 
 	Browser reports:<br><br>
 
-	window.screen.availWidth: <span id="availWidth"></span><br>
-	window.screen.availHeight: <span id="availHeight"></span><br>
+	screen.availWidth: <span id="availWidth"></span><br>
+	screen.availHeight: <span id="availHeight"></span><br>
 	window.devicePixelRatio: <span id="devicePixelRatio"></span><br>
-	body.clientWidth: <span id="clientWidth"></span><br>
-	body.clientHeight: <span id="clientHeight"></span><br>
+	body.clientWidth: <span id="clientWidth"></span> <span id="idSameWidth">! Different than screen.availWidth</span><br>
+	body.clientHeight: <span id="clientHeight"></span> <span id="idSameHeight">! Different than screen.availHeight</span><br>
 	<br>
 	Real values:<br><br>
 	physical width: <span id="realWidth"></span><br>
@@ -248,14 +255,15 @@
 <div id="idWrapper">
 	Example: <img id="idMoire" src="moire.png" width="1000">
 	<br>
-	Find the moiré pattern and maximize the distance between the stripes.
+	Find the moiré pattern and maximize the distance between the stripes.<br>
+	Alternatively try to match the shown physical width with what you know.
 	<br>
 	<div style="height:5em; width:10000px">
 		<canvas id="idCanvas" height="100" width="10000" style="width:100%"></canvas>
 	</div>
 </div>
 
-<input id="idSlider" type="range" min="0" max="11000" value="10000">
+<input id="idSlider" type="range" min="10" max="11000" value="10000">
 
 <p>Project page: <a href="https://github.com/xyzzy/realDPI">https://github.com/xyzzy/realDPI</a></p>
 </body>
