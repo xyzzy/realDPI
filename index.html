@@ -140,8 +140,8 @@
 				document.getElementById("devicePixelRatio").innerText = window.devicePixelRatio;
 				document.getElementById("clientWidth").innerText = document.body.clientWidth;
 				document.getElementById("clientHeight").innerText = document.body.clientHeight;
-				document.getElementById("idSameWidth").style.visibility = (screen.availWidth === document.body.clientWidth? "hidden" : "visible");
-				document.getElementById("idSameHeight").style.visibility = (screen.availHeight === document.body.clientHeight? "hidden" : "visible");
+				document.getElementById("idSameWidth").style.display = (screen.availWidth === document.body.clientWidth? "none" : "inherit");
+				document.getElementById("idSameHeight").style.display = (screen.availHeight === document.body.clientHeight? "none" : "inherit");
 			}, 50);
 
 			// button listener
@@ -250,14 +250,14 @@
 	physical width: <span id="realWidth"></span><br>
 	device pixel ratio: <span id="realPixelRatio"></span><br>
 	<p></p>
-</div>
-
-<div id="idWrapper">
 	Example: <img id="idMoire" src="moire.png" width="1000">
 	<br>
 	Find the moiré pattern and maximize the distance between the stripes.<br>
 	Alternatively try to match the shown physical width with what you know.
 	<br>
+</div>
+
+<div id="idWrapper">
 	<div style="height:5em; width:10000px">
 		<canvas id="idCanvas" height="100" width="10000" style="width:100%"></canvas>
 	</div>

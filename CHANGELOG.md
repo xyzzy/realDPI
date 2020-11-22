@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ```
+2020-11-22 00:06:02 Textual.
 2020-11-21 22:26:29 Improved formulas.
 2020-11-21 21:52:03 Slider starting position is `window.devicePixelRatio`.
 ```
