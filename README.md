@@ -1,6 +1,6 @@
 # Welcome to the broken world of browser DPI.
 
-Project description can be found here: [https://xyzzy.github.io/realDPI/index.html](https://xyzzy.github.io/realDPI/index.html)
+Try the test here: [https://xyzzy.github.io/realDPI/index.html](https://xyzzy.github.io/realDPI/index.html)
 
 ## Real DPI
 
