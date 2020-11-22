@@ -12,9 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 New Formulas and text.
 
 ```
-2020-11-22 00:06:02 Textual.
-2020-11-21 22:26:29 Improved formulas.
-2020-11-21 21:52:03 Slider starting position is `window.devicePixelRatio`.
+2020-11-22 12:06:22 Added. Total width*height.
+2020-11-22 00:06:02 Changed. Textual.
+2020-11-21 22:26:29 Changed. Improved formulas.
+2020-11-21 21:52:03 Changed. Slider starting position is `window.devicePixelRatio`.
 ```
 
 ## 2020-11-19 15:39:52 Version 1.0.0

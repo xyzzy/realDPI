@@ -45,11 +45,13 @@ Chrome desktop (4K screen)
 
 - 4K has `availWidth/Height` of 2560x1440 with `pixelRatio=1.125`.
 - Resizing with ctrl +/- keeps `availWidth` constant and changes `clientWidth`/`pixelRatio`.
-- To get a 4K `clientWidth/Height` you need to `ctrl-`. Browser reports `availWidth/Height` of 2560*1440 and `pixelRatio=1`.
+- `clientWidth/Height` does not match `availWidth/Height`.
+- To get a 4K `clientWidth/Height` you need to `ctrl-`. Browser then reports `availWidth/Height` of 2560*1440 and `pixelRatio=1`.
 
 Firefox mobile (1440x2560 screen)
 
 - 1440x2560 has `availWidth/Height` of 360x640 with `pixelRatio=4`.
+- `clientWidth/Height` does not match `availWidth/Height`.
 - Additionally, portrait has `clientWidth/Height` 980x1524  (that about 68% of available).
 - Additionally, landscape has `clientWidth/Height` 980x551  (that about 38% of available).
 

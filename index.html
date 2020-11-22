@@ -135,13 +135,14 @@
 
 			// resize listener
 			setInterval(() => {
+				document.getElementById("WxH").innerText = (screen.availWidth*window.devicePixelRatio)+'x'+(screen.availHeight*window.devicePixelRatio);
 				document.getElementById("availWidth").innerText = screen.availWidth;
 				document.getElementById("availHeight").innerText = screen.availHeight;
 				document.getElementById("devicePixelRatio").innerText = window.devicePixelRatio;
 				document.getElementById("clientWidth").innerText = document.body.clientWidth;
 				document.getElementById("clientHeight").innerText = document.body.clientHeight;
-				document.getElementById("idSameWidth").style.display = (screen.availWidth === document.body.clientWidth? "none" : "inherit");
-				document.getElementById("idSameHeight").style.display = (screen.availHeight === document.body.clientHeight? "none" : "inherit");
+				document.getElementById("idSameWidth").style.display = (screen.availWidth === document.body.clientWidth? "none" : "inline");
+				document.getElementById("idSameHeight").style.display = (screen.availHeight === document.body.clientHeight? "none" : "inline");
 			}, 50);
 
 			// button listener
@@ -238,8 +239,10 @@
 <div class="description">
 	<button id="idButton">Enter full-screen</button>
 
-	Browser reports:<br><br>
-
+	Browser reports: <br>
+	<br>
+	Your display: <span id="WxH"></span><br>
+	<br>
 	screen.availWidth: <span id="availWidth"></span><br>
 	screen.availHeight: <span id="availHeight"></span><br>
 	window.devicePixelRatio: <span id="devicePixelRatio"></span><br>
