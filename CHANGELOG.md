@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ```
+2020-11-22 16:41:16 Changed. Merge resize/timer event handlers.
 2020-11-22 16:16:40 Changed. `Readme.md` is source for `index.html`.
 ```
 

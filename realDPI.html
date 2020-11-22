@@ -111,17 +111,26 @@
 			const domButton = document.getElementById("idButton");
 			const domCanvas = document.getElementById("idCanvas");
 			const domSlider = document.getElementById("idSlider");
-			const domRealWidth = document.getElementById("realWidth");
-			const domRealPixelRatio = document.getElementById("realPixelRatio");
 
 			function update() {
 				// the moire effect starts when the canvas is double density
 				let ratio = 10000 / domSlider.value;
 				domCanvas.style.width = (1 / ratio * 100) + "%";
-				domRealWidth.innerText = Math.round(document.body.clientWidth * ratio / 2);
+				document.getElementById("realWidth").innerText = Math.round(document.body.clientWidth * ratio / 2);
 
 				// ratio between physical and css pixels.
-				domRealPixelRatio.innerText = Math.round(ratio / 2 * 1000) / 1000;
+				document.getElementById("realPixelRatio").innerText = Math.round(ratio / 2 * 1000) / 1000;
+
+				// update other fields
+				document.getElementById("WxH").innerText = (screen.availWidth*window.devicePixelRatio)+'x'+(screen.availHeight*window.devicePixelRatio);
+				document.getElementById("availWidth").innerText = screen.availWidth;
+				document.getElementById("availHeight").innerText = screen.availHeight;
+				document.getElementById("devicePixelRatio").innerText = window.devicePixelRatio;
+				document.getElementById("clientWidth").innerText = document.body.clientWidth;
+				document.getElementById("clientHeight").innerText = document.body.clientHeight;
+				document.getElementById("idSameWidth").style.display = (screen.availWidth === document.body.clientWidth? "none" : "inline");
+				document.getElementById("idSameHeight").style.display = (screen.availHeight === document.body.clientHeight? "none" : "inline");
+
 			}
 
 			// set initial position to reported value
@@ -134,16 +143,7 @@
 			update();
 
 			// resize listener
-			setInterval(() => {
-				document.getElementById("WxH").innerText = (screen.availWidth*window.devicePixelRatio)+'x'+(screen.availHeight*window.devicePixelRatio);
-				document.getElementById("availWidth").innerText = screen.availWidth;
-				document.getElementById("availHeight").innerText = screen.availHeight;
-				document.getElementById("devicePixelRatio").innerText = window.devicePixelRatio;
-				document.getElementById("clientWidth").innerText = document.body.clientWidth;
-				document.getElementById("clientHeight").innerText = document.body.clientHeight;
-				document.getElementById("idSameWidth").style.display = (screen.availWidth === document.body.clientWidth? "none" : "inline");
-				document.getElementById("idSameHeight").style.display = (screen.availHeight === document.body.clientHeight? "none" : "inline");
-			}, 100);
+			setInterval(update, 100);
 
 			// button listener
 			domButton.addEventListener("click", () => {
