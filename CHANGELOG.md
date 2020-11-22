@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 2020-11-22 00:13:17 [Version 1.1.0]
+
+New Formulas and text.
+
 ```
 2020-11-22 00:06:02 Textual.
 2020-11-21 22:26:29 Improved formulas.
@@ -24,4 +28,5 @@ Initial version.
 2020-11-19 02:31:06 Initial commit.
 ```
 
-[Unreleased]: https://github.com/xyzzy/realDPI/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/xyzzy/realDPI/compare/v1.1.0...HEAD
+[Version 1.1.0]: https://github.com/xyzzy/realDPI/compare/v1.0.0...v1.1.0
