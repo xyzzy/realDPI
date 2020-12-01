@@ -25,13 +25,11 @@ Browsers lie, hide and conceal the physical pixel size of your screen.
 However, carefully constructing the canvas can produce moiré effects when down sampled.
 The patterns give visual hints to determine the actual size.
 
-## Stop this madness
+The CSS standard has sadly botched the meaning of DPI by fixating it to being 96 on any screen on any device.
+Browser builders have tried to compensate this by introducing `window.devicePixelRatio`.
+Sadly, even that does not always reveal reality.
 
-Browser builders should stop forcing a logical 96dpi for every screen and use it for what it was originally intended: a metric to scale and create custom-fit contents for all devices.
-
-With dpi always being 96 it loses it meaning and spoofing, hacking and guessing will become business as usual.
-
-There is currently no way to get any physical screen metrics using javascript.
+There is currently no way to get any physical screen measurements or real DPI using javascript.
 
 ## Observations
 
@@ -57,6 +55,14 @@ Firefox mobile (1440x2560 screen)
 
 Chrome mobile (1440x2560 screen)
 - 1440x2560 has `availWidth/Height` of 360x640 with `pixelRatio=4`.
+
+## Further reading
+
+[https://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html](https://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html)
+
+[https://daringfireball.net/2010/04/why_960_by_640](https://daringfireball.net/2010/04/why_960_by_640)
+
+[https://fronteers.nl/congres/2012/sessions/a-pixel-is-not-a-pixel-peter-paul-koch](https://fronteers.nl/congres/2012/sessions/a-pixel-is-not-a-pixel-peter-paul-koch)
 
 ## Versioning
 

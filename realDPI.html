@@ -194,14 +194,15 @@
 		In theory <span class="mono">window.availableWidth/Height</span> times <span class="mono">window.devicePixelRatio</span> should be the physical pixel size, only experience reveals this is seldom the case.</p>
 
 	<h2>Why this page</h2>
-	<p>Browsers lie, hide and conceal the physical pixel size of your screen.
-		However, carefully constructing the canvas can produce moiré effects when down sampled.
+	<p>Browsers lie, hide and conceal the physical pixel size of your screen.<br>
+		However, carefully constructing the canvas can produce moiré effects when down sampled.<br>
 		The patterns give visual hints to determine the actual size.</p>
 
-	<h2>Stop this madness</h2>
-	<p>Browser builders should stop forcing a logical 96dpi for every screen and use it for what it was originally intended: a metric to scale and create custom-fit contents for all devices.</p>
-	<p>With dpi always being 96 it loses it meaning and spoofing, hacking and guessing will become business as usual.</p>
-	<p>There is currently no way to get any physical screen metrics using javascript.</p>
+	<p>The CSS standard has sadly botched the meaning of DPI by fixating it to being 96 on any screen on any device.<br>
+		Browser builders have tried to compensate this by introducing `window.devicePixelRatio`.<br>
+		Sadly, even that does not always reveal reality.</p>
+
+	<p>There is currently no way to get any physical screen measurements or real DPI using javascript.</p>
 
 	<h2>How to determine your REAL dpi</h2>
 	<dl>

@@ -1,58 +1,52 @@
 <!DOCTYPE html>
+<!--
+ *  This file is part of realDPI - Finding your physical screen resolution by using moiré patterns.
+ *
+ *  Copyright (C) 2020, xyzzy@rockingship.org
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as published
+ *  by the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
 <html lang="en">
 <head>
-	<title>Real DPI</title>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>realDPI - Finding your physical screen resolution by using moiré patterns.</title>
+	<meta name="description" content="Navigating and zooming through fractal, make snapshots and save or share with friends">
+	<style>
+		body {
+			font-family: Verdana, Geneva, sans-serif;
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			border: 0;
+			padding: 0;
+			overflow-x: hidden;
+		}
+
+		.mono {
+			font-family: monospace, serif;
+		}
+	</style>
 </head>
 <body>
-<h1 style="margin:1.3em 0 1em;padding:0;font-weight:bold;font-size:1.6em;border-bottom:1pt solid #DDDDDD;">Welcome to the broken world of browser DPI.</h1>
-<p style="margin:1.2em 0;">Try the test here: <a href="https://xyzzy.github.io/realDPI/realDPI.html">https://xyzzy.github.io/realDPI/realDPI.html</a></p>
-<h2 style="margin:1.3em 0 1em;padding:0;font-weight:bold;font-size:1.5em;border-bottom:1px solid #EEEEEE;">Real DPI</h2>
-<p style="margin:1.2em 0;">Visually detect our browsers real screen resolution and DPI.</p>
-<p style="margin:1.2em 0;">Browsers have broken the internet. Instead of making available their real resolution and DPI, they spoof the DPI to the self-proclaimed &quot;standard&quot; of 96 dots per inch.</p>
-<p style="margin:1.2em 0;">The hack effectively changes your high-resolution and flagship expensive screen to something like 384x854</p>
-<h2 style="margin:1.3em 0 1em;padding:0;font-weight:bold;font-size:1.5em;border-bottom:1px solid #EEEEEE;">Why is this a problem</h2>
-<p style="margin:1.2em 0;">Browser coordinates used to position page elements are floating point. This scales for any screen size and this spoofing is generally invisible.</p>
-<p style="margin:1.2em 0;">The problem arises with procedural generated content, specifically <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">&lt;canvas&gt;</code> in combination with <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">context2d.putImageData()</code> which is integer based.</p>
-<p style="margin:1.2em 0;">To compensate you need to oversample the canvas. MDN suggests <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio">https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio</a> using <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">window.devicePixelRatio</code>.
-	In theory <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">window.availableWidth/Height</code> times <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">window.devicePixelRatio</code> should be the physical pixel size, only experience reveals this is seldom the case.</p>
-<h2 style="margin:1.3em 0 1em;padding:0;font-weight:bold;font-size:1.5em;border-bottom:1px solid #EEEEEE;">Why this page</h2>
-<p style="margin:1.2em 0;">Browsers lie, hide and conceal the physical pixel size of your screen.
-	However, carefully constructing the canvas can produce moiré effects when down sampled.
-	The patterns give visual hints to determine the actual size.</p>
-<h2 style="margin:1.3em 0 1em;padding:0;font-weight:bold;font-size:1.5em;border-bottom:1px solid #EEEEEE;">Stop this madness</h2>
-<p style="margin:1.2em 0;">Browser builders should stop forcing a logical 96dpi for every screen and use it for what it was originally intended: a metric to scale and create custom-fit contents for all devices.</p>
-<p style="margin:1.2em 0;">With dpi always being 96 it loses it meaning and spoofing, hacking and guessing will become business as usual.</p>
-<p style="margin:1.2em 0;">There is currently no way to get any physical screen metrics using javascript.</p>
-<h2 style="margin:1.3em 0 1em;padding:0;font-weight:bold;font-size:1.5em;border-bottom:1px solid #EEEEEE;">Observations</h2>
-<p style="margin:1.2em 0;">Firefox desktop (4K screen):</p>
-<ul style="list-style-type:disc;margin-left:1em;padding-left:0.5em;text-indent:0;">
-	<li>4K has <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">availWidth/Height</code> of 3840x2160 with pixelRatio=1.</li>
-	<li>With full screen, <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">clientHeight</code> is one less for the historical hidden menu bar/line.</li>
-	<li>Resizing with ctrl +/- keeps <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">clientWidth</code> and <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">availWidth</code> identical.</li>
-</ul>
-<p style="margin:1.2em 0;">Chrome desktop (4K screen)</p>
-<ul style="list-style-type:disc;margin-left:1em;padding-left:0.5em;text-indent:0;">
-	<li>4K has <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">availWidth/Height</code> of 2560x1440 with <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">pixelRatio=1.125</code>.</li>
-	<li>Resizing with ctrl +/- keeps <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">availWidth</code> constant and changes <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">clientWidth</code>/<code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">pixelRatio</code>.</li>
-	<li><code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">clientWidth/Height</code> does not match <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">availWidth/Height</code>.</li>
-	<li>To get a 4K <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">clientWidth/Height</code> you need to <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">ctrl-</code>. Browser then reports <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">availWidth/Height</code> of 2560*1440 and <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">pixelRatio=1</code>.</li>
-</ul>
-<p style="margin:1.2em 0;">Firefox mobile (1440x2560 screen)</p>
-<ul style="list-style-type:disc;margin-left:1em;padding-left:0.5em;text-indent:0;">
-	<li>1440x2560 has <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">availWidth/Height</code> of 360x640 with <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">pixelRatio=4</code>.</li>
-	<li><code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">clientWidth/Height</code> does not match <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">availWidth/Height</code>.</li>
-	<li>Additionally, portrait has <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">clientWidth/Height</code> 980x1524 (that about 68% of available).</li>
-	<li>Additionally, landscape has <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">clientWidth/Height</code> 980x551 (that about 38% of available).</li>
-</ul>
-<p style="margin:1.2em 0;">Chrome mobile (1440x2560 screen)</p>
-<ul style="list-style-type:disc;margin-left:1em;padding-left:0.5em;text-indent:0;">
-	<li>1440x2560 has <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">availWidth/Height</code> of 360x640 with <code style="background-color:#f8f8f8;border-radius:2px;padding:1px 2px 0 2px;border:1px solid #e0e0e0;font-family:Consolas,Inconsolata,Courier,monospace;font-size:0.9em;color:#444;">pixelRatio=4</code>.</li>
-</ul>
-<h2 style="margin:1.3em 0 1em;padding:0;font-weight:bold;font-size:1.5em;border-bottom:1px solid #EEEEEE;">Versioning</h2>
-<p style="margin:1.2em 0;">This project adheres to <a href="http://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.
-	For the versions available, see the <a href="https://github.com/xyzzy/realDPI/tags">tags on this repository</a>.</p>
-<h2 style="margin:1.3em 0 1em;padding:0;font-weight:bold;font-size:1.5em;border-bottom:1px solid #EEEEEE;">License</h2>
-<p style="margin:1.2em 0;">This project is licensed under Affero GPLv3 - see the <a href="LICENSE">LICENSE</a> file for details.</p>
+<h1>Welcome to the broken world of browser DPI.</h1>
+<p>Main project page: <a href="https://github.com/xyzzy/realDPI"><span class="mono">https://github.com/xyzzy/realDPI</span></a></p>
+<p>Visual DPI tester: <a href="https://xyzzy.github.io/realDPI/realDPI.html"><span class="mono">https://xyzzy.github.io/realDPI/realDPI.html</span></a></p>
 </body>
 </html>
