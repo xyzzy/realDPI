@@ -8,12 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ```
+2021-02-17 19:16:48 Changed: Headings in `README.md`.
 2020-12-01 00:38:45 Changed: `Readme.md`.
 2020-11-22 16:41:16 Changed: Merge resize/timer event handlers.
 2020-11-22 16:16:40 Changed: `Readme.md` is source for `index.html`.
 ```
 
-## 2020-11-22 00:13:17 [Version 1.1.0]
+## [Version 1.1.0] 2020-11-22 00:13:17
 
 New Formulas and text.
 
@@ -24,7 +25,7 @@ New Formulas and text.
 2020-11-21 21:52:03 Changed. Slider starting position is `window.devicePixelRatio`.
 ```
 
-## 2020-11-19 15:39:52 Version 1.0.0
+## Version 1.0.0 2020-11-19 15:39:52
 
 Initial version.
 
