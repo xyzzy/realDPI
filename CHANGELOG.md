@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ```
+2021-03-21 12:48:30 Changed: Modernized SEO headers.
 2021-03-21 12:19:29 Added: `moonwalk` theme.
 ```
 

@@ -1,28 +1,45 @@
 <!DOCTYPE html>
-<!--
- *  This file is part of realDPI - Finding your physical screen resolution by using moiré patterns.
- *
- *  Copyright (C) 2020, xyzzy@rockingship.org
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as published
- *  by the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
--->
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>realDPI - Finding your physical screen resolution by using moiré patterns.</title>
-	<meta name="description" content="Navigating and zooming through fractal, make snapshots and save or share with friends">
+
+	<!--
+	 *  This file is part of realDPI - Finding the physical screen resolution by using moiré patterns.
+	 *
+	 *  Copyright (C) 2020, xyzzy@rockingship.org
+	 *
+	 *  This program is free software: you can redistribute it and/or modify
+	 *  it under the terms of the GNU Affero General Public License as published
+	 *  by the Free Software Foundation, either version 3 of the License, or
+	 *  (at your option) any later version.
+	 *
+	 *  This program is distributed in the hope that it will be useful,
+	 *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+	 *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	 *  GNU Affero General Public License for more details.
+	 *
+	 *  You should have received a copy of the GNU Affero General Public License
+	 *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+	-->
+
+	<title>Real DPI</title>
+	<meta property="og:title" content="Real DPI">
+	<meta name="description" content="Finding the physical screen resolution by using moiré patterns">
+	<meta property="og:description" content="Finding the physical screen resolution by using moiré patterns">
+	<link rel="shortcut icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+	<link rel="shortcut icon" type="image/png" sizes="152x152" href="assets/favicon-152.png">
+	<link rel="shortcut icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+	<link rel="apple-touch-icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+	<link rel="apple-touch-icon" type="image/png" sizes="152x152" href="assets/favicon-152.png">
+	<link rel="apple-touch-icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+	<meta property="og:url" content="https://xyzzy.github.io/realDPI/index.html">
+	<meta property="og:image" content="https://xyzzy.github.io/realDPI/assets/favimage-840x210.jpg">
+	<meta property="og:type" content="website">
+	<meta property="og:locale" content="en_GB">
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta property="twitter:title" content="Real DPI - Finding the physical screen resolution by using moiré patterns" />
+	<meta property="twitter:image" content="https://xyzzy.github.io/realDPI/assets/favimage-840x210.jpg" />
+
 	<style>
 		body {
 			font-family: Verdana, Geneva, sans-serif;
@@ -42,11 +59,244 @@
 		.mono {
 			font-family: monospace, serif;
 		}
+		.description {
+			padding: 1em;
+		}
+		.arrow {
+			font-size: 2em;
+			color: red;
+		}
+
+		#idSameWidth,  #idSameHeight {
+			color: red;
+		}
+
+		#idButton {
+			margin: 0 auto;
+			display: inline-block;
+			font-size: 2em;
+		}
+
+		#idWrapper {
+			position: relative;
+		}
+
+		#idMoire {
+			width: 40.5%;
+			vertical-align: middle;
+		}
+
+		#idCanvas {
+			background-color: #0f0;
+			height: 3em;
+		}
+
+		#idSlider {
+			-webkit-appearance: none; /* Override default CSS styles */
+			appearance: none;
+			width: 100%;
+			height: 2em;
+			background: #ccc;
+			outline: none;
+		}
+
+		#idSlider::-webkit-slider-thumb {
+			width: 1.5em;
+			height: 1.5em;
+		}
+
+		#idSlider::-moz-range-thumb {
+			width: 1.5em;
+			height: 1.5em;
+		}
 	</style>
+	<script type="text/javascript">
+		"use strict";
+
+		window.addEventListener("load", () => {
+
+			const canvas = document.getElementById("idCanvas");
+			const ctx = canvas.getContext("2d");
+			const width = canvas.width;
+			const height = canvas.height;
+
+			// erase canvas
+			ctx.fillStyle = '#0000'; // transparent
+			ctx.fillRect(0, 0, width, height);
+
+			// fill pattern
+			ctx.fillStyle = '#000'; // black
+			for (let i = 0; i < width; i += 2)
+				ctx.fillRect(i, 0, 1, height);
+
+			// get DOM elements
+			const domIntro = document.getElementById("idIntro");
+			const domButton = document.getElementById("idButton");
+			const domCanvas = document.getElementById("idCanvas");
+			const domSlider = document.getElementById("idSlider");
+
+			function update() {
+				// the moire effect starts when the canvas is double density
+				let ratio = 10000 / domSlider.value;
+				domCanvas.style.width = (1 / ratio * 100) + "%";
+				document.getElementById("realWidth").innerText = Math.round(document.body.clientWidth * ratio / 2);
+
+				// ratio between physical and css pixels.
+				document.getElementById("realPixelRatio").innerText = Math.round(ratio / 2 * 1000) / 1000;
+
+				// update other fields
+				document.getElementById("WxH").innerText = (screen.availWidth*window.devicePixelRatio)+'x'+(screen.availHeight*window.devicePixelRatio);
+				document.getElementById("availWidth").innerText = screen.availWidth;
+				document.getElementById("availHeight").innerText = screen.availHeight;
+				document.getElementById("devicePixelRatio").innerText = window.devicePixelRatio;
+				document.getElementById("clientWidth").innerText = document.body.clientWidth;
+				document.getElementById("clientHeight").innerText = document.body.clientHeight;
+				document.getElementById("idSameWidth").style.display = (screen.availWidth === document.body.clientWidth? "none" : "inline");
+				document.getElementById("idSameHeight").style.display = (screen.availHeight === document.body.clientHeight? "none" : "inline");
+
+			}
+
+			// set initial position to reported value
+			if (window.devicePixelRatio)
+				domSlider.value = 1 / window.devicePixelRatio / 2 * 10000;
+
+			// slider listener
+			domSlider.addEventListener("input", update);
+			// initial call
+			update();
+
+			// resize listener
+			setInterval(update, 100);
+
+			// button listener
+			domButton.addEventListener("click", () => {
+				if (domIntro.style.display !== "none") {
+					// enter fullscreen
+					let elem = document.documentElement;
+
+					if (elem.requestFullscreen)
+						elem.requestFullscreen();
+					else if (elem.webkitRequestFullscreen) /* Safari */
+						elem.webkitRequestFullscreen();
+					else if (elem.msRequestFullscreen) /* IE11 */
+						elem.msRequestFullscreen();
+
+					domIntro.style.display = "none";
+					domButton.innerText = "Exit full-screen";
+				} else {
+					// exit fullscreen
+					if (document.exitFullscreen)
+						document.exitFullscreen();
+					else if (document.webkitExitFullscreen) /* Safari */
+						document.webkitExitFullscreen();
+					else if (document.msExitFullscreen) /* IE11 */
+						document.msExitFullscreen();
+
+					domIntro.style.display = "block";
+					domButton.innerText = "Enter full-screen";
+
+				}
+			});
+
+		});
+
+	</script>
 </head>
 <body>
-<h1>Welcome to the broken world of browser DPI.</h1>
-<p>Main project page: <a href="https://github.com/xyzzy/realDPI"><span class="mono">https://github.com/xyzzy/realDPI</span></a></p>
-<p>Visual DPI tester: <a href="https://xyzzy.github.io/realDPI/realDPI.html"><span class="mono">https://xyzzy.github.io/realDPI/realDPI.html</span></a></p>
+
+<div id="idIntro" class="description">
+	<h1>Real DPI</h1>
+	<p>Visually detect our browsers real screen resolution and DPI.</p>
+	<p>Browsers have broken the internet. Instead of making available their real resolution and DPI, they spoof the DPI to the self-proclaimed "standard" of 96 dots per inch.</p>
+	<p>The hack effectively changes your high-resolution and flagship expensive screen to something like 384x854</p>
+
+	<h2>Why is this a problem</h2>
+	<p>Browser coordinates used to position page elements are floating point. This scales for any screen size and this spoofing is generally invisible.</p>
+	<p>The problem arises with procedural generated content, specifically <span class="mono">&lt;canvas&gt;</span> in combination with <span class="mono">context2d.putImageData()</span> which is integer based.</p>
+	<p>To compensate you need to oversample the canvas. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio">MDN suggests</a> using <span class="mono">window.devicePixelRatio</span>.
+		In theory <span class="mono">window.availableWidth/Height</span> times <span class="mono">window.devicePixelRatio</span> should be the physical pixel size, only experience reveals this is seldom the case.</p>
+
+	<h2>Why this page</h2>
+	<p>Browsers lie, hide and conceal the physical pixel size of your screen.<br/>
+		However, carefully constructing the canvas can produce moiré effects when down sampled.<br/>
+		The patterns give visual hints to determine the actual size.</p>
+
+	<p>The CSS standard has sadly botched the meaning of DPI by fixating it to being 96 on any screen on any device.<br/>
+		Browser builders have tried to compensate this by introducing `window.devicePixelRatio`.<br/>
+		Sadly, even that does not always reveal reality.</p>
+
+	<p>There is currently no way to get any physical screen measurements or real DPI using javascript.</p>
+
+	<h2>How to determine your REAL dpi</h2>
+	<dl>
+		<dt>Press "Enter full-screen" to remove text.</dt>
+		<dd>Put the browser into full screen mode, mobiles are usually exclusively full-screen.
+			Pressing also toggles the display of this text to remove any scroll bars.
+			If present, you should also hide side panels like history and bookmarks.
+		</dd>
+
+		<dt>For mobile, hold it in portrait.</dt>
+		<dd>Firefox for android really dropped the banana here.
+			On my device, portrait is 980*1524.
+			For landscape you would expect 1524*980 but in reality it is reported as 980*630.
+		</dd>
+
+		<dt>Find the moiré pattern.</dt>
+		<dd>Directly below is a PNG of the moiré pattern to expect and search.
+			Use the slider to find an approximation of the moiré pattern.
+			The greater the distance between the green bars, the better.
+			If you find more than one, use the left-most version.
+		</dd>
+
+		<dt>Read the guessimate.</dt>
+		<dd>It shows your real horizontal resolution and DPI.</dd>
+
+		<dt>Try with landscape.</dt>
+		<dd>Rotate to landscape.
+			If <span class="mono">screen.availWidth</span> equals <span class="mono">body.clientWidth</span> then you're safe.
+		</dd>
+	</dl>
+
+	<hr>
+</div>
+
+<div class="description">
+	<span class="arrow">&#x261b;</span> <button id="idButton">Enter full-screen</button> <span class="arrow">&#x261a;</span><br/>
+	<br/>
+	Browser reports: <br/>
+	<br/>
+	Your display: <span id="WxH"></span><br/>
+	<br/>
+	screen.availWidth: <span id="availWidth"></span><br/>
+	screen.availHeight: <span id="availHeight"></span><br/>
+	window.devicePixelRatio: <span id="devicePixelRatio"></span><br/>
+	body.clientWidth: <span id="clientWidth"></span> <span id="idSameWidth">! Different than screen.availWidth</span><br/>
+	body.clientHeight: <span id="clientHeight"></span> <span id="idSameHeight">! Different than screen.availHeight</span><br/>
+	<br/>
+	Real values:<br/><br/>
+	physical width: <span id="realWidth"></span><br/>
+	device pixel ratio: <span id="realPixelRatio"></span><br/>
+	<p></p>
+	Example: <img id="idMoire" src="moire.png" width="1000"><br/>
+	<br/>
+	Find the moiré pattern and maximize the distance between the stripes.<br/>
+	Alternatively try to match the shown physical width with what you know.<br/>
+	<br/>
+	If the bar below is solid green, then the exact DPI was automatically detected.
+</div>
+
+<div id="idWrapper">
+	<div style="height:5em; width:10000px">
+		<canvas id="idCanvas" height="100" width="10000" style="width:100%"></canvas>
+	</div>
+</div>
+
+<input id="idSlider" type="range" min="10" max="11000" value="10000">
+
+<hr/>
+<p>
+	<button onclick="location='https://xyzzy.github.io/realDPI/README.html'">&#x2343; README</button>
+	<button onclick="location='https://github.com/xyzzy/realDPI'">&#x2353; realDPI@github</button>
+</p>
 </body>
 </html>
