@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 2021-03-21 13:32:05 [Version 1.3.0]
+
 ```
 2021-03-21 12:48:30 Changed: Modernized SEO headers.
 2021-03-21 12:19:29 Added: `moonwalk` theme.
@@ -43,6 +45,7 @@ Initial version.
 2020-11-19 02:31:06 Initial commit.
 ```
 
-[Unreleased]: https://github.com/xyzzy/realDPI/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/xyzzy/realDPI/compare/v1.3.0...HEAD
+[Version 1.3.0]: https://github.com/xyzzy/realDPI/compare/v1.2.0...v1.3.0
 [Version 1.2.0]: https://github.com/xyzzy/realDPI/compare/v1.1.0...v1.2.0
 [Version 1.1.0]: https://github.com/xyzzy/realDPI/compare/v1.0.0...v1.1.0
