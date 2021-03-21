@@ -1,4 +1,15 @@
+---
+layout: home
+title: "realDPI - Finding the physical screen resolution by using moiré patterns"
+image: assets/favimage-840x210.jpg
+---
+
+\[click on image to start to the interactive demonstration\]
+[![teaser](assets/favimage-840x210.jpg)](https://xyzzy.github.io/realDPI/)
+
 # realDPI
+
+Finding the physical screen resolution by using moiré patterns
 
 ## Welcome to the Wonderful broken World of browser DPI.
 
@@ -66,6 +77,14 @@ Chrome mobile (1440x2560 screen)
 
 [https://fronteers.nl/congres/2012/sessions/a-pixel-is-not-a-pixel-peter-paul-koch](https://fronteers.nl/congres/2012/sessions/a-pixel-is-not-a-pixel-peter-paul-koch)
 
+## Source code
+
+Grab one of the tarballs at [https://github.com/xyzzy/realDPI/releases](https://github.com/xyzzy/realDPI/releases) or checkout the latest code:
+
+```sh
+  git clone https://github.com/xyzzy/realDPI.git
+```
+
 ## Versioning
 
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
@@ -73,4 +92,4 @@ For the versions available, see the [tags on this repository](https://github.com
 
 ## License
 
-This project is licensed under Affero GPLv3 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under Affero GPLv3 - see the [LICENSE.txt](LICENSE.txt) file for details.

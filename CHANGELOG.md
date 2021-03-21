@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-##  [Version 1.2.0] 2021-02-17 19:19:07
+```
+2021-03-21 12:19:29 Added: `moonwalk` theme.
+```
+
+## 2021-02-17 19:19:07 [Version 1.2.0]
 
 ```
 2021-02-17 19:16:48 Changed: Headings in `README.md`.
@@ -16,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 2020-11-22 16:16:40 Changed: `Readme.md` is source for `index.html`.
 ```
 
-## [Version 1.1.0] 2020-11-22 00:13:17
+## 2020-11-22 00:13:17 [Version 1.1.0]
 
 New Formulas and text.
 
@@ -27,7 +31,7 @@ New Formulas and text.
 2020-11-21 21:52:03 Changed. Slider starting position is `window.devicePixelRatio`.
 ```
 
-## Version 1.0.0 2020-11-19 15:39:52
+## 2020-11-19 15:39:52 Version 1.0.0
 
 Initial version.
 
