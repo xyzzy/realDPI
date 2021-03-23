@@ -5,17 +5,19 @@ image: assets/favimage-840x210.jpg
 ---
 
 \[click on image to start to the interactive demonstration\]
-[![teaser](assets/favimage-840x210.jpg)](https://xyzzy.github.io/realDPI/)
+[![teaser](assets/favimage-840x210.jpg)](https://xyzzy.github.io/realDPI)
 
 # realDPI
-Visual DPI tester
+
 Finding the physical screen resolution by using moiré patterns
 
-Try the demonstration here: [https://xyzzy.github.io/realDPI/](https://xyzzy.github.io/realDPI/)
+Try the demonstration here: [https://xyzzy.github.io/realDPI/](https://xyzzy.github.io/realDPI)
 
-## Welcome to the Wonderful broken World of browser DPI.
+### Welcome to the Wonderful broken World of browser DPI.
 
 *when you see things the browser doesn't*
+
+Visual DPI tester.
 
 ## Real DPI
 
